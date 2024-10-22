@@ -59,3 +59,51 @@ graph TD
     linkStyle 0 stroke-width:4px
     linkStyle 1 stroke-width:4px
 ```
+
+## GAN Model
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+graph TD
+    %% Generator Section
+    A[Pose Data] --> B[Generator]
+    B --> B1["Dense Layer (256 units) + ReLU"]
+    B1 --> B2["Reshape (16x16x256)"]
+    B2 --> B3["Conv2DTranspose (128 filters, 3x3) + ReLU"]
+    B3 --> B4["Conv2DTranspose (64 filters, 3x3) + ReLU"]
+    B4 --> B5["Conv2DTranspose (3 filters, 3x3) + Tanh"]
+    B5 --> C[Generated Image]
+
+    %% Discriminator Section
+    C --> D[Discriminator]
+    D --> D1["Conv2D (64 filters, 3x3) + LeakyReLU"]
+    D1 --> D2["Conv2D (128 filters, 3x3) + LeakyReLU"]
+    D2 --> D3["Flatten"]
+    D3 --> D4["Dense Layer (1 unit, Sigmoid)"]
+    D4 --> E{Discriminator Decision}
+    E -->|Real| F[Real Image]
+    E -->|Fake| G[Generator Loss]
+    
+    %% Training Process
+    H[Start Training] --> I[Process Each Batch]
+    I --> J[Generate Fake Images]
+    J --> K[Send Real & Fake Images to Discriminator]
+    K --> L[Discriminator Output]
+    L --> M[Update Discriminator]
+    M --> N[Calculate Loss]
+    N --> O[Update Generator Weights]
+    O --> P[Track Progress]
+    P --> Q[End Epoch]
+
+    %% Styling Definitions
+    classDef default fill:#2a2a2a,stroke:#7a7a7a,color:#e0e0e0;
+    classDef model fill:#4a4a8c,stroke:#7a7aff,color:#ffffff,stroke-width:2px;
+    classDef output fill:#ffdd57,stroke:#333,stroke-width:2px;
+    classDef loss fill:#f0932b,stroke:#fff,stroke-width:2px;
+    classDef action fill:#374151,stroke:#6b7280,color:#ffffff;
+
+    %% Apply Classes
+    class A,B,B1,B2,B3,B4,B5,C,D,D1,D2,D3,D4 model;
+    class E,F,G loss;
+    class H,I,J,K,L,M,N,O,P,Q action;
+```
