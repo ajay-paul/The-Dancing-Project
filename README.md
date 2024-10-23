@@ -54,7 +54,7 @@ The data is stored in an HDF5 file. Each group contains:
 Dataset1/
     ├── audio_mfcc_sequences: (149, 13)
     ├── pose_landmark_sequences: (33, 2)
-    ├── frames: (287, 640, 360, 3)
+    ├── frames: (640, 360, 3)
 Dataset2/
     .
     .
